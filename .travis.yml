@@ -48,7 +48,7 @@ script:
     --build-arg NVIDIA_DRIVER_VERSION="$NVIDIA_DRIVER_VERSION"
     --cache-from $tag
     --tag $tag
-    --file Dockerfile
+    .
 
 after_success:
   - >
