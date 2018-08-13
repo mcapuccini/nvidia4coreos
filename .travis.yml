@@ -40,15 +40,15 @@ script:
   - tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}-${KERNEL_VERSION}-4.14.59"
   - >
     docker build
-      --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
-      --build-arg KERNEL_REPOSITORY="$KERNEL_REPOSITORY"
-      --build-arg COREOS_VERSION="$COREOS_VERSION"
-      --build-arg KERNEL_VERSION="$KERNEL_VERSION"
-      --build-arg NVIDIA_DRIVER_URL="$NVIDIA_DRIVER_URL"
-      --build-arg NVIDIA_DRIVER_VERSION="$NVIDIA_DRIVER_VERSION"
-      --cache-from $tag
-      --tag $tag
-      --file Dockerfile
+    --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
+    --build-arg KERNEL_REPOSITORY="$KERNEL_REPOSITORY"
+    --build-arg COREOS_VERSION="$COREOS_VERSION"
+    --build-arg KERNEL_VERSION="$KERNEL_VERSION"
+    --build-arg NVIDIA_DRIVER_URL="$NVIDIA_DRIVER_URL"
+    --build-arg NVIDIA_DRIVER_VERSION="$NVIDIA_DRIVER_VERSION"
+    --cache-from $tag
+    --tag $tag
+    --file Dockerfile
 
 after_success:
   - >
