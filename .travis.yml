@@ -8,7 +8,6 @@ env:
   global:
     - COREOS_RELEASE_CHANNEL=stable
     - KERNEL_REPOSITORY=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-    - ANSIBLE_LINT_VERSION=3.4.15
     - YAMLLINT_VERSION=1.8.1
     - SHELLCHECK_VERSION=v0.5.0
   matrix:
@@ -19,15 +18,22 @@ env:
       NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/396.44/NVIDIA-Linux-x86_64-396.44.run
       NVIDIA_DRIVER_VERSION=396.44
 
+install:
+  - docker pull koalaman/shellcheck:$SHELLCHECK_VERSION
+  - docker pull lukasmartinelli/hadolint hadolint
+  - docker pull jamesmstone/shfm
+  - docker pull boiyaa/yamllint:$YAMLLINT_VERSION
+
 before_script:
   # Check code format
   - docker run -v "$PWD:/mnt" "koalaman/shellcheck:$SHELLCHECK_VERSION" $(find . -name '*.sh')
   - docker run --rm -i lukasmartinelli/hadolint hadolint --ignore DL3008 - < Dockerfile
-  - docker run -v "$PWD:/hostdir" -w /hostdir "jamesmstone/shfmt" -i 2 -w $(find . -name '*.sh')
+  - docker run -v "$PWD:/workdir" "boiyaa/yamllint:$YAMLLINT_VERSION" -c .yamllint.yml -s $(find . -name '*.yml')
+  - docker run -v "$PWD:/hostdir" -w /hostdir jamesmstone/shfmt -i 2 -w $(find . -name '*.sh')
   - git diff --exit-code
 
 script:
-  - $tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}-${KERNEL_VERSION}-4.14.59"
+  - tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}-${KERNEL_VERSION}-4.14.59"
   - >
     docker build
       --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
