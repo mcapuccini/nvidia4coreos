@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# Instert deps modules if not inserted already
+if ! lsmod | grep "ipmi_msghandler" &> /dev/null; then
+  insmod `find $HOSTFS/usr -iname ipmi_msghandler.ko`
+fi
+if ! lsmod | grep "ipmi_devintf" &> /dev/null; then
+  insmod `find $HOSTFS/usr -iname ipmi_devintf.ko`
+fi
+
 # Insert nvidia modules
 insmod ${NVIDIA_MODULES_PATH}/nvidia.ko
 insmod ${NVIDIA_MODULES_PATH}/nvidia-uvm.ko
@@ -11,7 +19,7 @@ nvga=`echo "$ndevs" | grep "VGA compatible controller" | wc -l`
 n=`expr $n3d + $nvga - 1`
 
 # Make devices
-for i in `seq 0 $N`; do
+for i in `seq 0 $n`; do
   rm -f $HOSTFS/dev/nvidia$i
   mknod -m 666 $HOSTFS/dev/nvidia$i c 195 $i
 done
@@ -20,11 +28,3 @@ mknod -m 666 $HOSTFS/dev/nvidiactl c 195 255
 d=`grep nvidia-uvm $HOSTFS/proc/devices | awk '{print $1}'`
 rm -f $HOSTFS/dev/nvidia-uvm
 mknod -m 666 $HOSTFS/dev/nvidia-uvm c $d 0
-
-# Instert deps modules if not inserted already
-if ! lsmod | grep "ipmi_msghandler" &> /dev/null; then
-  insmod `find /rootfs/usr -iname ipmi_msghandler.ko`
-fi
-if ! lsmod | grep "ipmi_devintf" &> /dev/null; then
-  insmod `find /rootfs/usr -iname ipmi_devintf.ko`
-fi

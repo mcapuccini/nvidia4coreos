@@ -5,9 +5,9 @@ FROM ubuntu:bionic as builder
 MAINTAINER Marco Capuccini <marco.capuccini@it.uu.se>
 
 # Build arguments
-ARG COREOS_RELEASE_CHANNEL=stable
+ARG COREOS_RELEASE_CHANNEL
 ARG COREOS_VERSION
-ARG KERNEL_REPOSITORY=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+ARG KERNEL_REPOSITORY
 ARG KERNEL_VERSION
 ARG NVIDIA_DRIVER_URL
 ARG NVIDIA_DRIVER_VERSION
@@ -84,7 +84,7 @@ FROM ubuntu:bionic
 MAINTAINER Marco Capuccini <marco.capuccini@it.uu.se>
 
 # Arguments
-ARG COREOS_RELEASE_CHANNEL=stable
+ARG COREOS_RELEASE_CHANNEL
 ARG COREOS_VERSION
 ARG KERNEL_VERSION
 ARG NVIDIA_DRIVER_VERSION

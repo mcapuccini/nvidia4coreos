@@ -1,0 +1,38 @@
+---
+language: python
+
+services:
+  - docker
+
+env:
+  global:
+    - COREOS_RELEASE_CHANNEL=stable
+    - KERNEL_REPOSITORY=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+  matrix:
+    # 396.44-coreos-1800.6.0
+    - >
+      COREOS_VERSION=1800.6.0
+      KERNEL_VERSION=4.14.59
+      NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/396.44/NVIDIA-Linux-x86_64-396.44.run
+      NVIDIA_DRIVER_VERSION=396.44
+
+script:
+  - $tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}"
+  - >
+    docker build
+      --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
+      --build-arg KERNEL_REPOSITORY="$KERNEL_REPOSITORY"
+      --build-arg COREOS_VERSION="$COREOS_VERSION"
+      --build-arg KERNEL_VERSION="$KERNEL_VERSION"
+      --build-arg NVIDIA_DRIVER_URL="$NVIDIA_DRIVER_URL"
+      --build-arg NVIDIA_DRIVER_VERSION="$NVIDIA_DRIVER_VERSION"
+      --cache-from $tag
+      --tag $tag
+      --file Dockerfile
+
+after_success:
+  - >
+    if [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      docker push mcapuccini/nvidia4coreos
+    fi
