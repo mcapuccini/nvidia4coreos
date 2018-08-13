@@ -24,6 +24,7 @@ ENV NVIDIA_INSTALLER /opt/nvidia/download/NVIDIA-Linux-x86_64-${NVIDIA_DRIVER_VE
 RUN apt-get -y update && \
     DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install \
     curl \
+    ca-certificates \
     git \
     bc \
     make \
