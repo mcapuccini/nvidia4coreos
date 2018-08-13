@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Instert deps modules if not inserted already
-if ! lsmod | grep "ipmi_msghandler" &> /dev/null; then
+if ! (lsmod | grep -w -q "^ipmi_msghandler"); then
   insmod `find $HOSTFS/usr -iname ipmi_msghandler.ko`
 fi
-if ! lsmod | grep "ipmi_devintf" &> /dev/null; then
+if ! (lsmod | grep -w -q "^ipmi_devintf"); then
   insmod `find $HOSTFS/usr -iname ipmi_devintf.ko`
 fi
 
