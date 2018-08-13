@@ -22,9 +22,8 @@ ENV NVIDIA_INSTALLER /opt/nvidia/download/NVIDIA-Linux-x86_64-${NVIDIA_DRIVER_VE
 
 # Install deps
 RUN apt-get -y update && \
-    DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install \
     curl \
-    ca-certificates \
     git \
     bc \
     make \
@@ -105,7 +104,7 @@ ENV HOSTFS=/hostfs
 
 # Install deps
 RUN apt-get -y update && \
-    apt-get -y --no-install-recommends install module-init-tools pciutils && \
+    apt-get -y install module-init-tools pciutils && \
     apt-get autoremove && \
     apt-get clean
 

@@ -31,7 +31,7 @@ install:
 before_script:
   # Check code format
   - docker run -v "$PWD:/mnt" "koalaman/shellcheck:$SHELLCHECK_VERSION" $(find . -name '*.sh')
-  - docker run --rm -i lukasmartinelli/hadolint hadolint --ignore DL3008 - < Dockerfile
+  - docker run --rm -i lukasmartinelli/hadolint hadolint --ignore DL3015 --ignore DL3008 - < Dockerfile
   - docker run -v "$PWD:/workdir" "boiyaa/yamllint:$YAMLLINT_VERSION" -c .yamllint.yml -s $(find . -name '*.yml')
   - docker run -v "$PWD:/hostdir" -w /hostdir jamesmstone/shfmt -i 2 -w $(find . -name '*.sh')
   - git diff --exit-code
