@@ -25,7 +25,7 @@ env:
 install:
   - docker pull koalaman/shellcheck:$SHELLCHECK_VERSION
   - docker pull lukasmartinelli/hadolint
-  - docker pull jamesmstone/shfm
+  - docker pull jamesmstone/shfmt
   - docker pull boiyaa/yamllint:$YAMLLINT_VERSION
 
 before_script:
