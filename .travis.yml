@@ -8,16 +8,26 @@ env:
   global:
     - COREOS_RELEASE_CHANNEL=stable
     - KERNEL_REPOSITORY=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+    - ANSIBLE_LINT_VERSION=3.4.15
+    - YAMLLINT_VERSION=1.8.1
+    - SHELLCHECK_VERSION=v0.5.0
   matrix:
-    # 396.44-coreos-1800.6.0
+    # 396.44-coreos-1800.6.0-kernel-4.14.59
     - >
       COREOS_VERSION=1800.6.0
       KERNEL_VERSION=4.14.59
       NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/396.44/NVIDIA-Linux-x86_64-396.44.run
       NVIDIA_DRIVER_VERSION=396.44
 
+before_script:
+  # Check code format
+  - docker run -v "$PWD:/mnt" "koalaman/shellcheck:$SHELLCHECK_VERSION" $(find . -name '*.sh')
+  - docker run --rm -i lukasmartinelli/hadolint hadolint --ignore DL3008 - < Dockerfile
+  - docker run -v "$PWD:/hostdir" -w /hostdir "jamesmstone/shfmt" -i 2 -w $(find . -name '*.sh')
+  - git diff --exit-code
+
 script:
-  - $tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}"
+  - $tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}-${KERNEL_VERSION}-4.14.59"
   - >
     docker build
       --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
@@ -34,5 +44,5 @@ after_success:
   - >
     if [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      docker push mcapuccini/nvidia4coreos
+      docker push $tag
     fi
