@@ -1,4 +1,6 @@
 # NVIDIA drivers for CoreOS Container Linux
+[![Build Status](https://travis-ci.org/mcapuccini/nvidia4coreos.svg?branch=master)](https://travis-ci.org/mcapuccini/nvidia4coreos)
+
 Yet another NVIDIA driver container for Container Linux (aka CoreOS). This container is based on a [blog post](https://blog.sourced.tech/post/docker_coreos_gpu_deep_learning/) by [source{d}](https://sourced.tech/).
 
 ## Table of Contents
