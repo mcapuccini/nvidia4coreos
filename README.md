@@ -27,10 +27,10 @@ To access the GPUs a container needs to mount the `nvidia4coreos` volume, have a
 docker run --rm \
   --volumes-from nvidia4coreos \
   $(for d in /dev/nvidia*; do echo -n "--device $d "; done) \
-  --env PATH=$PATH:/opt/nvidia/bin/ \
-  --env LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/lib  \
   ubuntu:bionic \
-  nvidia-smi -L
+  sh -c 'export PATH=$PATH:/opt/nvidia/bin/; \
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/lib; \
+  nvidia-smi -L'
 ```
 
 - Run Tensorflow and verify if the GPUs are indentified: 
@@ -38,10 +38,10 @@ docker run --rm \
 docker run --rm \
   --volumes-from nvidia4coreos \
   $(for d in /dev/nvidia*; do echo -n "--device $d "; done) \
-  --env PATH=$PATH:/opt/nvidia/bin/ \
-  --env LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/lib \
   tensorflow/tensorflow:latest-gpu \
-  python -c "import tensorflow as tf;tf.Session(config=tf.ConfigProto(log_device_placement=True))"
+  sh -c 'export PATH=$PATH:/opt/nvidia/bin/; \
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/lib; \
+  python -c "import tensorflow as tf;tf.Session(config=tf.ConfigProto(log_device_placement=True))"'
 ```
 
 ## Uninstall
