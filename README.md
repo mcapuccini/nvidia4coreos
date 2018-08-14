@@ -44,6 +44,18 @@ docker run --rm \
   python -c "import tensorflow as tf;tf.Session(config=tf.ConfigProto(log_device_placement=True))"'
 ```
 
+- Run Jupyter with Tensorflow on port 8888
+```
+docker run --rm -d \
+  --publish 8888:8888 \
+  --volumes-from nvidia4coreos \
+  $(for d in /dev/nvidia*; do echo -n "--device $d "; done) \
+  tensorflow/tensorflow:latest-gpu \
+  sh -c 'export PATH=$PATH:/opt/nvidia/bin/; \
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/lib; \
+  /run_jupyter.sh --allow-root'
+```
+
 ## Uninstall
 To unistall the driver please run:
 
