@@ -29,7 +29,7 @@ docker run --rm \
   $(for d in /dev/nvidia*; do echo -n "--device $d "; done) \
   --env PATH=$PATH:/opt/nvidia/bin/ \
   --env LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/nvidia/lib  \
-  ubuntu:bionic \ 
+  ubuntu:bionic \
   nvidia-smi -L
 ```
 
