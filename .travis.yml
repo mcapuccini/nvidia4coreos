@@ -21,6 +21,12 @@ env:
       KERNEL_VERSION=4.14.59
       NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/396.44/NVIDIA-Linux-x86_64-396.44.run
       NVIDIA_DRIVER_VERSION=396.44
+    # 396.44-coreos-1800.6.0-kernel-4.14.63
+    - >
+      COREOS_VERSION=1800.6.0
+      KERNEL_VERSION=4.14.63
+      NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/396.44/NVIDIA-Linux-x86_64-396.44.run
+      NVIDIA_DRIVER_VERSION=396.44
 
 install:
   - docker pull koalaman/shellcheck:$SHELLCHECK_VERSION
