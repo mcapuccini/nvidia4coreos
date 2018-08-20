@@ -38,7 +38,7 @@ before_script:
 script:
   - tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}"
   - coreos_releases_url=https://coreos.com/releases/releases-${COREOS_RELEASE_CHANNEL}.json
-  - kernel_version="curl -s ${coreos_releases_url} | jq -r .[\"${VERSION}\"].major_software.kernel[0]"
+  - kernel_version="curl -s ${coreos_releases_url} | jq -r .[\"${COREOS_VERSION}\"].major_software.kernel[0]"
   - >
     docker build
     --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
