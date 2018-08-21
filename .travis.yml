@@ -37,7 +37,7 @@ script:
   - coreos_releases_url=https://coreos.com/releases/releases-${COREOS_RELEASE_CHANNEL}.json
   - coreos_version=$(curl -s ${coreos_releases_url} | jq -r  keys_unsorted[0])
   - kernel_version=$(curl -s ${coreos_releases_url} | jq -r .[\"${coreos_version}\"].major_software.kernel[0])
-  - tag="${NVIDIA_DRIVER_VERSION}-coreos-${coreos_version}"
+  - tag="mcapuccini/${NVIDIA_DRIVER_VERSION}-coreos-${coreos_version}"
   - >
     docker build
     --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
