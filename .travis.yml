@@ -15,9 +15,7 @@ env:
     - YAMLLINT_VERSION=1.8.1
     - SHELLCHECK_VERSION=v0.5.0
   matrix:
-    # 396.44-coreos-1800.6.0
     - >
-      COREOS_VERSION=1800.6.0
       NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/396.44/NVIDIA-Linux-x86_64-396.44.run
       NVIDIA_DRIVER_VERSION=396.44
 
@@ -36,14 +34,15 @@ before_script:
   - git diff --exit-code
 
 script:
-  - tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${COREOS_VERSION}"
   - coreos_releases_url=https://coreos.com/releases/releases-${COREOS_RELEASE_CHANNEL}.json
-  - kernel_version=$(curl -s ${coreos_releases_url} | jq -r .[\"${COREOS_VERSION}\"].major_software.kernel[0])
+  - coreos_version=$(curl -s ${coreos_releases_url} | jq -r  keys_unsorted[0])
+  - kernel_version=$(curl -s ${coreos_releases_url} | jq -r .[\"${coreos_version}\"].major_software.kernel[0])
+  - tag="${NVIDIA_DRIVER_VERSION}-coreos-${coreos_version}"
   - >
     docker build
     --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
     --build-arg KERNEL_REPOSITORY="$KERNEL_REPOSITORY"
-    --build-arg COREOS_VERSION="$COREOS_VERSION"
+    --build-arg COREOS_VERSION="$coreos_version"
     --build-arg KERNEL_VERSION="$kernel_version"
     --build-arg NVIDIA_DRIVER_URL="$NVIDIA_DRIVER_URL"
     --build-arg NVIDIA_DRIVER_VERSION="$NVIDIA_DRIVER_VERSION"
