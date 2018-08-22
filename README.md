@@ -15,9 +15,9 @@ Installing the driver on a CoreOS installation is as simple as running:
 ```
 docker run --name nvidia4coreos --privileged --volume /:/hostfs mcapuccini/nvidia4coreos:<driver-version>-coreos-<coreos-version>
 ```
-> This will instert the necessary modules, create the NVIDIA devices in the host and exit. Please do not remove the container, as its volume needs to be accessed by the containers that need to access the GPUs.
+> **WARNING:** Make sure to select the correct versions for your platform, thus substituting `<driver-version>` and `<coreos-version>` in the previous command. You can find out available versions for the container [here](https://hub.docker.com/r/mcapuccini/nvidia4coreos/tags/). The CI runs once a day and builds the drivers for the latest version of CoreOS, however the driver versions are hardcoded in the CI matrix. If there is no driver available for your card, please help yourself by adding an entry to the [matrix](https://github.com/mcapuccini/nvidia4coreos/blob/master/.travis.yml#L17) via pull request.
 
-Make sure to select the correct versions for your platform, thus substituting `<driver-version>` and `<coreos-version>` in the previous command. You can find out available versions for the container [here](https://hub.docker.com/r/mcapuccini/nvidia4coreos/tags/). The CI runs once a day and builds the drivers for the latest version of CoreOS, however the driver versions are hardcoded in the CI matrix. If there is no driver available for your card, please help yourself by adding an entry to the [matrix](https://github.com/mcapuccini/nvidia4coreos/blob/master/.travis.yml#L17) via pull request.
+This will instert the necessary modules, create the NVIDIA devices in the host and exit. Please do not remove the container, as its volume needs to be accessed by the containers that need to access the GPUs.
 
 ## Usage
 To access the GPUs a container needs to mount the `nvidia4coreos` volume, have access to the NVIDIA devices and define a couple of environment variables. A couple of examples follow.
