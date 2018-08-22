@@ -16,7 +16,7 @@ insmod "${NVIDIA_MODULES_PATH}/nvidia-uvm.ko"
 ndevs=$(lspci | grep -i NVIDIA)
 n3d=$(echo "$ndevs" | grep -c "3D controller")
 nvga=$(echo "$ndevs" | grep -c "VGA compatible controller")
-n="$(("$n3d" + "$nvga" - 1))"
+n="$((n3d + nvga - 1))"
 
 # Make devices
 for i in $(seq 0 "$n"); do
