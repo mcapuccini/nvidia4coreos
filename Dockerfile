@@ -110,10 +110,13 @@ RUN apt-get -y update && \
 
 # Copy modules from builder container
 COPY --from=builder /opt/nvidia/build "${NVIDIA_PATH}"
-COPY entrypoint.sh /entrypoint.sh
+
+# Copy bin files
+COPY bin/install.sh /install.sh
+COPY bin/insert.sh /insert.sh
 
 # Volume to be consumed by other containers
 VOLUME ${NVIDIA_PATH}
 
 # Specify the entrypoint
-ENTRYPOINT /entrypoint.sh
+CMD /install.sh
