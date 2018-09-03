@@ -24,5 +24,3 @@ ExecStop=-/sbin/rmmod nvidia_uvm nvidia
 [Install]
 WantedBy=multi-user.target
 EOF
-
-systemctl enable "$HOSTFS/etc/systemd/system/nvidia4coreos.service"
