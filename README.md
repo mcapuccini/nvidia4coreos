@@ -60,6 +60,6 @@ docker run --rm -d \
 To unistall the driver please run:
 
 ```
-sudo systemctl stop nvidia4coreos.servicedocker rm nvidia4coreos
+sudo systemctl stop nvidia4coreos.service
 sudo systemctl disable nvidia4coreos.service
 ```
