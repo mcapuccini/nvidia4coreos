@@ -16,10 +16,13 @@ EnvironmentFile=/etc/os-release
 ExecStartPre=/usr/bin/docker pull ${tag}
 ExecStartPre=-/usr/bin/docker rm nvidia4coreos
 ExecStartPre=-/sbin/rmmod nvidia_uvm nvidia
-ExecStart=/usr/bin/docker run --privileged --volume /:${HOSTFS} --name nvidia4coreos ${tag} insert.sh
+ExecStartPre=/usr/bin/docker run --privileged --volume /:${HOSTFS} --name nvidia4coreos ${tag} /insert.sh
+ExecStart=/usr/bin/sleep infinity
 ExecStop=/usr/bin/docker rm nvidia4coreos
 ExecStop=-/sbin/rmmod nvidia_uvm nvidia
 
 [Install]
 WantedBy=multi-user.target
 EOF
+
+sudo systemctl enable "$HOSTFS/etc/systemd/system/nvidia4coreos.service"
