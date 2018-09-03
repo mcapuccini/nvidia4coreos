@@ -4,7 +4,7 @@
 # shellcheck disable=SC2016,SC1090
 source "$HOSTFS/etc/os-release"
 tag=mcapuccini/nvidia4coreos:"${NVIDIA_DRIVER_VERSION}"-coreos-'${VERSION}'
-cat <<EOF > "$HOSTFS/etc/systemd/system/nvidia4coreos.service"
+cat <<EOF >"$HOSTFS/etc/systemd/system/nvidia4coreos.service"
 [Unit]
 Description=nvidia4coreos
 After=docker.service
