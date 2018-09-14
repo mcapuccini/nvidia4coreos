@@ -38,6 +38,7 @@ script:
   - coreos_version=$(curl -s ${coreos_releases_url} | jq -r  keys_unsorted[0])
   - kernel_version=$(curl -s ${coreos_releases_url} | jq -r .[\"${coreos_version}\"].major_software.kernel[0])
   - tag="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-${coreos_version}"
+  - tag_latest="mcapuccini/nvidia4coreos:${NVIDIA_DRIVER_VERSION}-coreos-latest"
   - >
     docker build
     --build-arg COREOS_RELEASE_CHANNEL="$COREOS_RELEASE_CHANNEL"
@@ -48,6 +49,7 @@ script:
     --build-arg NVIDIA_DRIVER_VERSION="$NVIDIA_DRIVER_VERSION"
     --cache-from $tag
     --tag $tag
+    --tag $tag_latest
     .
 
 after_success:
@@ -55,4 +57,5 @@ after_success:
     if [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
       docker push $tag
+      docker push $tag_latest
     fi
