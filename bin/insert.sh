@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Check if NVIDIA card is available
+if ! (lspci | grep -q NVIDIA); then
+  echo "No NVIDA card detected, exiting."
+  exit
+fi
+
 # Instert deps modules if not inserted already
 if ! (lsmod | grep -w -q "^ipmi_msghandler"); then
   insmod "$(find "$HOSTFS/usr" -iname ipmi_msghandler.ko)"
