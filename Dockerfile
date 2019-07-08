@@ -69,7 +69,7 @@ RUN "${NVIDIA_PATH}/download/driver.run" \
     --ui=none
 
 # Build kernel modules
-RUN "${NVIDIA_INSTALLER}" \
+RUN IGNORE_MISSING_MODULE_SYMVERS=1 "${NVIDIA_INSTALLER}" \
     --accept-license \
     --no-questions \
     --ui=none \
