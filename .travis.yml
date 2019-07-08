@@ -4,10 +4,6 @@ language: python
 services:
   - docker
 
-branches:
-  only:
-    - master
-
 env:
   global:
     - COREOS_RELEASE_CHANNEL=stable
