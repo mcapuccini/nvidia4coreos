@@ -4,10 +4,6 @@ language: python
 services:
   - docker
 
-branches:
-  only:
-    - master
-
 env:
   global:
     - COREOS_RELEASE_CHANNEL=stable
@@ -16,8 +12,8 @@ env:
     - SHELLCHECK_VERSION=v0.5.0
   matrix:
     - >
-      NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/396.44/NVIDIA-Linux-x86_64-396.44.run
-      NVIDIA_DRIVER_VERSION=396.44
+      NVIDIA_DRIVER_URL=http://us.download.nvidia.com/tesla/418.67/NVIDIA-Linux-x86_64-418.67.run
+      NVIDIA_DRIVER_VERSION=418.67
 
 install:
   - docker pull koalaman/shellcheck:$SHELLCHECK_VERSION

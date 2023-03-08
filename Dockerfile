@@ -31,6 +31,8 @@ RUN apt-get -y update && \
     libssl-dev \
     module-init-tools \
     p7zip-full \
+    bison \
+    flex \
     libelf-dev && \
     apt-get autoremove && \
     apt-get clean
@@ -51,6 +53,7 @@ RUN 7z e /tmp/coreos_developer_container.bin "usr/lib64/modules/*-coreos*/build/
 RUN 7z e /tmp/coreos_developer_container.bin "usr/lib64/modules/*-coreos*/build/include/config/kernel.release" && cp kernel.release /tmp/kernel.release
 
 # Prepare kernel source tree to build external modules
+RUN make oldconfig
 RUN make modules_prepare
 RUN sed -i -e "s/${KERNEL_VERSION}/$(cat /tmp/kernel.release)/" include/generated/utsrelease.h
 
@@ -66,7 +69,7 @@ RUN "${NVIDIA_PATH}/download/driver.run" \
     --ui=none
 
 # Build kernel modules
-RUN "${NVIDIA_INSTALLER}" \
+RUN IGNORE_MISSING_MODULE_SYMVERS=1 "${NVIDIA_INSTALLER}" \
     --accept-license \
     --no-questions \
     --ui=none \
